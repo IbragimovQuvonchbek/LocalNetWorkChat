@@ -1,8 +1,18 @@
 import socket
 import threading
 import tkinter as tk
+import argparse
 
-SERVER_HOST = '192.168.1.6'
+
+def arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--server', dest='server', help='write server ip')
+    return parser.parse_args()
+
+
+arg = arguments()
+
+SERVER_HOST = arg.server
 SERVER_PORT = 12345
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
