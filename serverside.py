@@ -26,6 +26,7 @@ def handle_client(client_socket):
 
 
 def accept_clients():
+    print("Server started.")
     while True:
         client_socket, client_address = server_socket.accept()
         print(f"[*] Accepted connection from {client_address}")
@@ -34,4 +35,7 @@ def accept_clients():
         client_thread.start()
 
 
-accept_clients()
+print("Do you want to start the server?[y/n]")
+choice = input("> ")
+if choice == "y":
+    accept_clients()
