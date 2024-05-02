@@ -15,6 +15,7 @@ def handle_client(client_socket):
     while True:
         try:
             message = client_socket.recv(1024).decode()
+            # print(message)
         except ConnectionResetError:
             clients.remove(client_socket)
             break
