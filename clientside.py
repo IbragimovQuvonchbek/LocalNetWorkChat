@@ -7,6 +7,7 @@ import argparse
 def arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--server', dest='server', help='write server ip')
+    parser.add_argument('-n', '--name', dest='name', help='write your name')
     return parser.parse_args()
 
 
@@ -14,6 +15,7 @@ arg = arguments()
 
 SERVER_HOST = arg.server
 SERVER_PORT = 12345
+CLIENT_NAME = arg.name
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((SERVER_HOST, SERVER_PORT))
@@ -42,7 +44,8 @@ def insert_message(message, side):
 
 def send_message(event=None):
     message = entry_field.get()
-    insert_message(message, "right")
+    insert_message(f"you: {message}", "right")
+    message = f"{CLIENT_NAME}: {message}"
     client_socket.send(message.encode())
     entry_field.delete(0, tk.END)
 
