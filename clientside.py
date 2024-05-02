@@ -2,6 +2,7 @@ import socket
 import threading
 import tkinter as tk
 import argparse
+from tkinter import messagebox
 
 
 def arguments():
@@ -15,7 +16,7 @@ arg = arguments()
 
 SERVER_HOST = arg.server
 SERVER_PORT = 12345
-CLIENT_NAME = arg.name
+CLIENT_NAME = arg.name if arg.name else "anonymous"
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((SERVER_HOST, SERVER_PORT))
@@ -50,10 +51,17 @@ def send_message(event=None):
     entry_field.delete(0, tk.END)
 
 
+def on_closing():
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        client_window.destroy()
+        client_socket.close()
+
+
 client_window = tk.Tk()
 client_window.title("Chat Client")
 client_window.geometry("800x600")
 client_window.resizable(False, False)
+client_window.protocol("WM_DELETE_WINDOW", on_closing)
 
 chat_text = tk.Text(client_window, wrap=tk.WORD)
 chat_text.pack(expand=True, fill=tk.BOTH)
